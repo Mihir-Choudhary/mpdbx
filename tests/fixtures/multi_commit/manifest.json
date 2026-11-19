@@ -1,0 +1,47 @@
+{
+ "commits": 5,
+ "expect_counts": {
+  "AmsiFileCache": 1,
+  "AttributePersistContext": 5,
+  "BackupProcessInfo": 3,
+  "Bulk": 0,
+  "FileHashes": 1,
+  "FileLowFiAsync": 1,
+  "FolderGuardPaths": 1,
+  "InventoryState": 1,
+  "RollingQueuesTables": 1,
+  "RollingQueuesValues": 2,
+  "SQLiteGlobals": 1,
+  "SystemRegistryCache": 1
+ },
+ "expect_events": {
+  "AmsiProcessStart": 1,
+  "AmsiScan": 1,
+  "FileContext": 1,
+  "FileHashed": 1,
+  "FileScan": 2,
+  "LowFiHit": 1,
+  "ModuleFirstLoad": 1,
+  "NoCertExec": 2,
+  "OfnProcessed": 1,
+  "OfnSet": 1,
+  "OfnSetInferred": 1,
+  "ProcessFirstStart": 2,
+  "QueueEntry": 2,
+  "RegistryChange": 1,
+  "ScanRun": 1,
+  "StoreExpiry": 1,
+  "StoreProcessStart": 1
+ },
+ "expect_links": {
+  "1": 12,
+  "2": 1,
+  "6": 2,
+  "7": 1,
+  "9": 1,
+  "P": 4
+ },
+ "expect_runs": 4,
+ "frames_applied": 7,
+ "stop": null
+}

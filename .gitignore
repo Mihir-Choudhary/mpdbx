@@ -1,0 +1,5 @@
+target/
+*.mpdbx.json
+tests/oracle/*.json
+__pycache__/
+dist/

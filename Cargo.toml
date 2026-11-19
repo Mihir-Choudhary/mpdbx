@@ -1,0 +1,37 @@
+[package]
+name = "mpdbx"
+version = "0.2.0"
+edition = "2024"
+rust-version = "1.99"
+publish = false
+license = "MIT"
+description = "MpEngineDB Explorer: correlated forensic view of Microsoft Defender mpenginedb.db and the History Store"
+repository = "https://github.com/Mihir-Choudhary/mpdbx"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "mpdbx"
+path = "src/main.rs"
+
+[dependencies]
+eframe = { version = "=0.37.0", default-features = false, features = ["glow", "default_fonts"] }
+egui_extras = { version = "=0.37.0", default-features = false }
+rusqlite = { version = "=0.41.1", features = ["bundled", "serialize"] }
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.154"
+sha2 = "=0.11.1"
+regex-lite = "=0.1.9"
+rfd = "=0.18.0"
+windows-sys = { version = "=0.61.2", features = ["Win32_Foundation", "Win32_Storage_FileSystem", "Win32_System_Console"] }
+
+[dev-dependencies]
+egui_kittest = "=0.37.0"
+
+[profile.release]
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+panic = "unwind"
+strip = true

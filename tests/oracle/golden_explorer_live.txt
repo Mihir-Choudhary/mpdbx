@@ -1,0 +1,18 @@
+event FileContext	149
+event FileHashed	104
+event LowFiHit	86
+event ModuleFirstLoad	3143
+event NoCertExec	39
+event OfnProcessed	758
+event OfnSet	80
+event ProcessFirstStart	323
+event QueueEntry	11
+event RegistryChange	1
+event StoreExpiry	74
+link 1 Exact	4578
+link 2 Exact	104
+link 4 Exact	36
+link 6 Exact	36
+link P Exact	323
+locations	4328
+runs	323
