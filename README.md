@@ -1,6 +1,6 @@
 # mpdbx — MpEngineDB Explorer
 
-A single Windows executable (~7.8 MB, no install, no runtime) that turns a **copy** of Microsoft Defender's
+A single Windows executable (~7.9 MB, no install, no runtime), with Python and PowerShell editions, that turns a **copy** of Microsoft Defender's
 engine database (`Scans\mpenginedb.db` + `-wal`) and `Scans\History\{Store,Results}` into correlated, decoded
 forensic records: process first starts, executions of binaries without an embedded certificate, OriginalFileName
 renames, file hashes, scan/AMSI provenance, rolling queues (threats, host network context, RDP), CFA folders and more.
@@ -12,9 +12,17 @@ every row shows **where it came from** (DB, WAL-only, WAL-modified, removed by t
 ![mpdbx Findings page](docs/findings.png)
 
 ## Download
-Get `mpdbx.exe` from the [latest release](https://github.com/Mihir-Choudhary/mpdbx/releases/latest) and check it
-against the published SHA-256. It is a self-contained executable: no installer, no runtime, nothing written to the
-registry. The binary is not code-signed, so Windows SmartScreen may warn the first time you run it.
+From the [latest release](https://github.com/Mihir-Choudhary/mpdbx/releases/latest) take one of:
+
+| File | Run | Needs |
+|---|---|---|
+| `mpdbx.exe` | double-click, or `mpdbx open <Scans>` | Windows 10/11 |
+| `mpdbx.ps1` | `Unblock-File mpdbx.ps1`, then `powershell -ExecutionPolicy Bypass -File mpdbx.ps1 [<Scans>]` | stock Windows PowerShell 5.1 |
+| `mpdbx.py` | `python3 mpdbx.py [<Scans>]` | Python 3.8+ with tkinter (Windows, macOS, Linux); standard library only |
+
+Check each file against `SHA256SUMS.txt` in the release. Every edition is a single self-contained file: no installer,
+nothing written to the registry. The exe is not code-signed, so Windows SmartScreen may warn the first time you run it.
+The script editions read the DB and WAL only; see [Other editions](#other-editions-same-layout-same-rules).
 
 ## Acquire a consistent copy first
 The database is SYSTEM-only and locked while Defender runs. Take everything **from one VSS snapshot** so the DB and
@@ -75,23 +83,19 @@ Keys: `Ctrl+F` search · `Ctrl+1/2/3/4` tabs · `Alt+←/→` back/forward · `E
 `Ctrl+B` bookmark · `Ctrl+C` copy row (TSV) · `Ctrl+E` export current list.
 
 ## Other editions (same layout, same rules)
-For machines where an exe cannot be run, or that are not Windows:
-
-| Edition | Run | Needs |
-|---|---|---|
-| `mpdbx.exe` | double-click, or `mpdbx open <Scans>` | Windows 10/11 |
-| `ports/powershell/mpdbx.ps1` | `powershell -ExecutionPolicy Bypass -File mpdbx.ps1 [<Scans>]` | stock Windows PowerShell 5.1 (Windows 10/11); uses Windows' own `winsqlite3.dll` |
-| `ports/python/mpdbx.py` | `python3 mpdbx.py [<Scans>]` | Python 3.8+ with tkinter (Windows, macOS, Linux: `apt install python3-tk`); standard library only |
+For machines where an exe cannot be run, or that are not Windows, `mpdbx.ps1` (source: `ports/powershell/`) uses
+Windows' own `winsqlite3.dll`, and `mpdbx.py` (source: `ports/python/`) needs only Python with tkinter
+(`apt install python3-tk` on Debian/Ubuntu).
 
 Both editions show Findings / Timeline / Files & processes / Evidence, decrypt and replay the WAL in memory with the
 same rules, and have a no-GUI mode (`mpdbx.py info|export <Scans> --out DIR`, `mpdbx.ps1 <Scans> -Info | -Export DIR`).
 They do not read `Scans\History` (Store/Results), MFT CSVs or bookmarks; those stay in the exe.
 `python ports/tests/edge_cases.py` runs the malformed-input, export-guard and search checks for both editions.
-`python ports/verify_ports.py <Scans> ...` checks that both editions produce exactly the exe's DB/WAL events (verified on
-the 7 reference copies and the WAL edge-case fixtures).
+`python ports/verify_ports.py <Scans> ...` checks that both editions produce exactly the exe's DB/WAL events and the same
+export files (verified on the reference copies and the WAL edge-case fixtures).
 
 Notes: the PowerShell edition compiles its engine (C#, embedded in the script) with `Add-Type`, which writes short-lived
-files under `%TEMP%` on the analysis machine. If the script was downloaded, unblock it first (`Unblock-File mpdbx.ps1`).
+files under `%TEMP%` on the analysis machine.
 On Python < 3.11, or a Windows build whose `winsqlite3.dll` lacks `sqlite3_deserialize`, the decrypted image is written
 to a private temporary file that is deleted on exit.
 `ports/powershell/mpdbx.ps1` is generated: edit `mpdbx.src.ps1` / `engine.cs` and run `python ports/powershell/build.py`.
