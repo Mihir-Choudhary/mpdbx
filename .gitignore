@@ -1,0 +1,3 @@
+target/
+*.mpdbx.json
+tests/oracle/*.json

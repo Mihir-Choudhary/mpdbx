@@ -1,0 +1,19 @@
+{
+ "commits": 4,
+ "expect_counts": {
+  "AmsiFileCache": 1,
+  "AttributePersistContext": 5,
+  "BackupProcessInfo": 3,
+  "Bulk": 0,
+  "FileHashes": 0,
+  "FileLowFiAsync": 1,
+  "FolderGuardPaths": 1,
+  "InventoryState": 1,
+  "RollingQueuesTables": 1,
+  "RollingQueuesValues": 2,
+  "SQLiteGlobals": 1,
+  "SystemRegistryCache": 1
+ },
+ "frames_applied": 6,
+ "stop": "truncated"
+}
