@@ -152,6 +152,7 @@ to the folder holding them (`live\...`, `vss9\...`) and run `cargo test -- --ign
 
 ## Credits
 The engine database codec builds on public research: dobin's
+[Defender Internals](https://blog.deeb.ch/posts/defender-ai-introspection/) write-up and
 [DefRev](https://github.com/dobin/DefRev/blob/main/analysis-1/bm_metastore/mpenginedb_decrypt.py) for the
 mpenginedb page encryption, and Fox-IT's
 [Windows Defender quarantine research](https://www.fox-it.com/nl/research/reverse-reveal-recover-windows-defender-quarantine-forensics/)
